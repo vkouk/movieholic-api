@@ -1,0 +1,32 @@
+{
+  "name": "movieholic-server",
+  "version": "1.0.0",
+  "description": "Online Movie - Series Renting Application",
+  "main": "index.js",
+  "engines": {
+    "node": "8.11.3",
+    "npm": "6.2.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "heroku-postbuild": "npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkouk/movieholic-api.git"
+  },
+  "author": "Vasilis Koukoutis",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "concurrently": "^3.6.1",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.5",
+    "nodemon": "^1.18.3",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}
