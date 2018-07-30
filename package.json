@@ -9,8 +9,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "heroku-postbuild": "npm run start"
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
