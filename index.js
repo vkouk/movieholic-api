@@ -9,7 +9,7 @@ require('./services/passport');
 require('./models/Users');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(keys.mongoURI, { useNewUrlParser: true });
+mongoose.connect(process.env.mongoURI, { useNewUrlParser: true });
 
 const app = express();
 
