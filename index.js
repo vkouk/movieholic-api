@@ -5,6 +5,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
 
+require('dotenv').config();
 require('./services/passport');
 require('./models/Users');
 
