@@ -10,6 +10,13 @@ const userSchema = new Schema({
         lowercase: true,
         minLength: 1
     },
+    username: {
+        type: String,
+        unique: true,
+        trim: true,
+        lowercase: true,
+        minLength: 1
+    },
     password: {
         type: String,
         minLength: 5
@@ -17,6 +24,9 @@ const userSchema = new Schema({
     balance: {
         type: Number,
         default: 0
+    },
+    joinedAt: {
+        type: Date
     }
 });
 
