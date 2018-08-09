@@ -1,2 +1,2 @@
 # movieholic
-Online Movie - Series Renting Application.
+Online Movies - Series Renting Application.
