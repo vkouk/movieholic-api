@@ -9,7 +9,7 @@ const signToken = username => {
     return jwt.sign(jwtPayload, keys.jwtKey, { expiresIn: '2 days'});
 };
 
-const setToken = (key, value) => Promise.resolve(redisClient.set(key, value));
+const setToken = (key, value) => Promise.resolve(redisClient.set(key, value.toString()));
 
 const createSession = (user) => {
     const { email, _id } = user;
@@ -27,16 +27,27 @@ const getAuthTokenId = (req, res) => {
         if (err || !reply) {
             return res.status(401).send('Unauthorized');
         }
-        return res.json({id: reply})
+        return res.json({ id: reply });
     });
 };
 
-const handleSignIn = (req, res, next) => {
+const handleSignIn = (req, res) => {
     const { email, password } = req.body;
+    const { authorization } = req.headers;
 
     if (!email || !password) {
-        return Promise.reject('incorrect form submission');
+        return res.status(422).send('Incorrect form submission');
     }
+
+    return authorization ? getAuthTokenId(req, res) : User.findOne({ email }).then(user => {
+        user.comparePassword(password, (err, isMatch) => {
+            if (err || !isMatch) { return res.status(401).send("Password doesn't match"); }
+
+            return user._id && user.email ? createSession(user)
+                .then(session => res.json(session))
+                .catch(err => res.status(400).send(err)) : Promise.reject(user);
+        });
+    }).catch(error => res.status(400).send(error));
 };
 
 const handleRegister = async(req, res, next) => {
@@ -46,7 +57,7 @@ const handleRegister = async(req, res, next) => {
         return res.status(422).send('Incorrect form submission');
     }
 
-    const existingUser = await User.findOne({ email, username });
+    const existingUser = await User.findOne({ $or: [ { email }, { username }]});
 
     if (existingUser) {
         return res.status(422).send('Email or Username is already in use');

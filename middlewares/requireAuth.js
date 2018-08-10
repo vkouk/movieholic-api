@@ -1,9 +1,15 @@
 const redisClient = require('../controllers/Authentication').redisClient;
 
 module.exports = (req, res, next) => {
-  if (!req.user) {
-      res.status(401).send({ 'error': 'No user found!' });
-  }
+    const { authorization } = req.headers;
 
-  next();
+    if (!authorization) {
+        return res.status(401).send('Unauthorized');
+    }
+    return redisClient.get(authorization, (err, reply) => {
+        if (err || !reply) {
+            return res.status(401).send('Unauthorized');
+        }
+        return next();
+    });
 };
