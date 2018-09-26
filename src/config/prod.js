@@ -2,5 +2,6 @@ module.exports = {
     mongoURI: process.env.mongoURI,
     redisURI: process.env.REDIS_URL,
     cookieKey: process.env.cookieKey,
-    jwtKey: process.env.jwtKey
+    jwtKey: process.env.jwtKey,
+    omdbApi: process.env.omdbApi
 };

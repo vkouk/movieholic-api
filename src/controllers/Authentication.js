@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const redis = require('redis');
 const keys = require('../config/keys');
-const User = require('../models/Users');
-const redisClient = redis.createClient(keys.redisURI);
+const User = require('../models/User');
+const gravatar = require('gravatar');
+const redisClient = require('../server').redisClient;
 
 const signToken = username => {
     const jwtPayload = { username };
@@ -12,11 +12,11 @@ const signToken = username => {
 const setToken = (key, value) => Promise.resolve(redisClient.set(key, value.toString()));
 
 const createSession = (user) => {
-    const { email, _id } = user;
+    const { email, id } = user;
     const token = signToken(email);
-    return setToken(token, _id)
+    return setToken(token, id)
         .then(() => {
-            return { success: 'true', userId: _id, token, user }
+            return { success: 'true', userId: id, token, user }
         })
         .catch(console.log);
 };
@@ -43,7 +43,7 @@ const handleSignIn = (req, res) => {
         user.comparePassword(password, (err, isMatch) => {
             if (err || !isMatch) { return res.status(401).send("Password doesn't match"); }
 
-            return user._id && user.email ? createSession(user)
+            return user.id && user.email ? createSession(user)
                 .then(session => res.json(session))
                 .catch(err => res.status(400).send(err)) : Promise.reject(user);
         });
@@ -63,7 +63,12 @@ const handleRegister = async(req, res, next) => {
         return res.status(422).send('Email or Username is already in use');
     }
 
-    const user = new User({ email, username, password, joinedAt: new Date() });
+    const avatar = gravatar.url(email, {
+        s: '200',
+        r: 'pg',
+        d: 'mm'
+    });
+    const user = new User({ email, username, password, avatar, joinedAt: new Date() });
 
     await user.save(err => {
         if (err) { next(err); }
@@ -74,6 +79,5 @@ const handleRegister = async(req, res, next) => {
 
 module.exports = {
     handleSignIn,
-    handleRegister,
-    redisClient
+    handleRegister
 };

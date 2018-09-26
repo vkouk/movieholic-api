@@ -25,6 +25,9 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
+    avatar: {
+        type: String
+    },
     joinedAt: {
         type: Date
     }

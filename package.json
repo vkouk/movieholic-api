@@ -2,14 +2,14 @@
   "name": "movieholic-server",
   "version": "1.0.0",
   "description": "Online Movie - Series Renting Application",
-  "main": "index.js",
+  "main": "src/server.js",
   "engines": {
     "node": "8.11.3",
     "npm": "6.3.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,13 @@
     "body-parser": "^1.18.3",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.3",
+    "gravatar": "^1.6.0",
     "jsonwebtoken": "^8.3.0",
-    "mongoose": "^5.2.7",
-    "nodemon": "^1.18.3",
-    "redis": "^2.8.0"
+    "mongoose": "^5.2.15",
+    "redis": "^2.8.0",
+    "stripe": "^6.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
   }
 }
