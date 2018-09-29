@@ -1,4 +1,4 @@
-const redisClient = require('../server').redisClient;
+const redisClient = require('../controllers/Authentication').redisClient;
 
 module.exports = (req, res, next) => {
     const { authorization } = req.headers;

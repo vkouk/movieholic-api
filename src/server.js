@@ -1,5 +1,4 @@
 const express = require('express');
-const redis = require('redis');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
@@ -9,8 +8,6 @@ require('./models/User');
 require('./models/Order');
 require('./models/Movie');
 require('./models/Serie');
-
-const redisClient = redis.createClient(keys.redisURI);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true }).catch(err => console.error(err));
@@ -29,5 +26,3 @@ require('./routes/authRoutes')(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
-
-module.exports = { redisClient };
