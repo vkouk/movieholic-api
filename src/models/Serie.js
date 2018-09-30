@@ -3,23 +3,38 @@ const { Schema } = mongoose;
 
 const serieSchema = new Schema({
     title: {
-        type: String
+        type: String,
+        required: true
     },
-    genre: {
-        type: [String]
-    },
+    genre: [{
+        type: String,
+        required: true
+    }],
     year: {
-        type: String
+        type: String,
+        required: true
     },
     released: {
-        type: String
+        type: String,
+        required: true
     },
     poster: {
-        type: String
+        type: String,
+        required: true
     },
     plot: {
-        type: String
+        type: String,
+        required: true
+    },
+    stock: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: 0,
+        max: 100
     }
 });
 
-module.exports = serieSchema;
+const SerieModel = mongoose.model('series', serieSchema);
+
+module.exports = SerieModel;

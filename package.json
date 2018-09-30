@@ -18,12 +18,15 @@
   "author": "Vasilis Koukoutis",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.3",
     "gravatar": "^1.6.0",
     "jsonwebtoken": "^8.3.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
     "mongoose": "^5.3.0",
     "redis": "^2.8.0",
     "stripe": "^6.12.1"

@@ -29,7 +29,8 @@ const userSchema = new Schema({
         type: String
     },
     joinedAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     }
 });
 

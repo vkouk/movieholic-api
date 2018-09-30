@@ -69,7 +69,7 @@ const handleRegister = async(req, res, next) => {
         r: 'pg',
         d: 'mm'
     });
-    const user = new User({ email, username, password, avatar, joinedAt: new Date() });
+    const user = new User({ email, username, password, avatar });
 
     await user.save(err => {
         if (err) { next(err); }

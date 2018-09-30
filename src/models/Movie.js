@@ -3,20 +3,34 @@ const { Schema } = mongoose;
 
 const movieSchema = new Schema({
     title: {
-        type: String
+        type: String,
+        required: true
     },
-    genre: {
-        type: [String]
-    },
+    genre: [{
+        type: String,
+        required: true
+    }],
     released: {
-        type: String
+        type: String,
+        required: true
     },
     poster: {
-        type: String
+        type: String,
+        required: true
     },
     plot: {
-        type: String
+        type: String,
+        required: true
+    },
+    stock: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: 0,
+        max: 100
     }
 });
 
-module.exports = movieSchema;
+const MovieModel = mongoose.model('movies', movieSchema);
+
+module.exports = MovieModel;
