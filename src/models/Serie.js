@@ -29,7 +29,7 @@ const serieSchema = new Schema({
     stock: {
         type: Number,
         required: true,
-        default: 1,
+        default: 10,
         min: 0,
         max: 100
     }

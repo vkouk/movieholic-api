@@ -43,8 +43,8 @@ const getAndStoreMovie = async (req, res) => {
     return await new Movie(newMovieEntry).save().then(movie => res.json(movie));
 }
 
-const getMovie = async (req, res, next) => getOne(Movie)(req,res,next);
-const getAllMovies = async (req, res, next) => getAll(Movie)(req,res,next);
+const getMovie = (req, res, next) => getOne(Movie)(req,res,next);
+const getAllMovies = (req, res, next) => getAll(Movie)(req,res,next);
 
 module.exports = {
     getAndStoreMovie,

@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const Movie = require('./Movie');
-const Serie = require('./Serie');
 
 const rentalSchema = new Schema({
     customer: {
