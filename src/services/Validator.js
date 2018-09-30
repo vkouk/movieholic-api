@@ -1,4 +1,3 @@
-const moment = require('moment');
 const _ = require('lodash');
 
 const validateEmail = email => {
@@ -7,9 +6,6 @@ const validateEmail = email => {
 }
 
 const compareData = (existingMovie, apiMovie) => {
-    const apiMovieDateReleased = moment(new Date(apiMovie.Released)).format('DD/MMM/YYYY');
-    //TODO: Compare Dates.
-
     return ( (apiMovie.Title !== existingMovie.title) || (!_.isEqual(existingMovie.genre.map(genre => genre), apiMovie.Genre.split(' ,'))) || (apiMovie.Poster !== existingMovie.poster) || (apiMovie.Plot !== existingMovie.plot)) ? false : true;
 }
 

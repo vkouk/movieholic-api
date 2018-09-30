@@ -1,9 +1,10 @@
 const Movie = require('../models/Movie');
 const Api = require('../services/Api');
+const { getOne, getAll } = require('./QueryController');
 const { compareData } = require('../services/Validator');
 const moment = require('moment');
 
-const getMovie = async (req, res) => {
+const getAndStoreMovie = async (req, res) => {
     const { movieTitle, movieYear } = req.body;
     const movie = await Api.fetchMovieFromApi(movieTitle, movieYear);
     const existingMovie = await Movie.findOne({ title: movie.Title });
@@ -21,14 +22,14 @@ const getMovie = async (req, res) => {
             return res.json(existingMovie);
         }
 
-        const newMovieData = {
+        const updateMovieData = {
             title: movie.Title,
             genre: movie.Genre.split(' ,'),
             released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
             poster: movie.Poster,
             plot: movie.Plot
         }
-        return await new Movie(newMovieData).save().then(movie => res.json(movie));
+        return Movie.findOneAndUpdate({ title: movie.Title }, { $set: updateMovieData }, { new: true }).then(movieRecord => res.json(movieRecord));
     }
 
     const newMovieEntry = {
@@ -42,6 +43,11 @@ const getMovie = async (req, res) => {
     return await new Movie(newMovieEntry).save().then(movie => res.json(movie));
 }
 
+const getMovie = async (req, res, next) => getOne(Movie)(req,res,next);
+const getAllMovies = async (req, res, next) => getAll(Movie)(req,res,next);
+
 module.exports = {
-    getMovie
+    getAndStoreMovie,
+    getMovie,
+    getAllMovies
 }
