@@ -1,9 +1,10 @@
-const redis = require('redis');
-const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
-const User = require('../models/User');
-const gravatar = require('gravatar');
-const redisClient = redis.createClient(keys.redisURI);
+import redis from 'redis';
+import jwt from 'jsonwebtoken';
+import config from '../config';
+import { User } from '../models/User';
+import gravatar from 'gravatar';
+
+const redisClient = redis.createClient(config.redisURI);
 
 const signToken = username => {
     const jwtPayload = { username };
@@ -78,8 +79,8 @@ const handleRegister = async(req, res, next) => {
     });
 };
 
-module.exports = {
+export { 
     handleSignIn,
     handleRegister,
-    redisClient
+    redisClient 
 };

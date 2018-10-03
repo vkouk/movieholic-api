@@ -1,20 +1,15 @@
-const axios = require('axios');
-const keys = require('../config/keys');
+import axios from 'axios';
+import config from '../config';
 
 const apiLink = 'http://www.omdbapi.com';
-const apikey = keys.omdbApi;
+const apikey = config.omdbApi;
 
-const fetchMovieFromApi = async (movieTitle, movieYear) => {
-    return await axios.get(`${apiLink}/?t=${movieTitle}&type=movie&y=${movieYear}&plot=short&apiKey=${apikey}`)
+export const fetchMovieFromApi = (movieTitle, movieYear) => {
+    return axios.get(`${apiLink}/?t=${movieTitle}&type=movie&y=${movieYear}&plot=short&apiKey=${apikey}`)
         .then(({ data }) => data)
         .catch(err => err);
 }
 
-const fetchSerieFromApi = async (serieTitle, serieYear) => {
+export const fetchSerieFromApi = (serieTitle, serieYear) => {
 
-}
-
-module.exports = {
-    fetchMovieFromApi,
-    fetchSerieFromApi
 }

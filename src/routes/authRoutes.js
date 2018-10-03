@@ -1,12 +1,13 @@
-const express = require('express');
-const authRouter = express.Router();
-const Authentication = require('../controllers/Authentication');
-const requireAuth = require('../middlewares/requireAuth');
-const { validateEmail } = require('../services/Validator');
-const User = require('../models/User');
+import express from 'express';
+import { handleSignIn, handleRegister } from '../controllers/AuthController'; 
+import requireAuth from '../middlewares/requireAuth';
+import { validateEmail } from '../services/Validator';
+import { User } from '../models/User';
 
-authRouter.post('/user/login', Authentication.handleSignIn);
-authRouter.post('/user/register', Authentication.handleRegister);
+export const authRouter = express.Router();
+
+authRouter.post('/user/login', handleSignIn);
+authRouter.post('/user/register', handleRegister);
 
 authRouter.post('/user/profile/:username', requireAuth, (req, res) => {
     const { email, username } = req.body;
@@ -31,5 +32,3 @@ authRouter.get('/user/profile/:username', requireAuth, async (req, res) => {
         res.json(user);
     }).catch(() => res.status(404).send('User not found'));
 });
-
-module.exports = authRouter;

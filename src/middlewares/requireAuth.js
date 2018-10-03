@@ -1,6 +1,6 @@
-const redisClient = require('../controllers/Authentication').redisClient;
+import { redisClient } from '../controllers/AuthController';
 
-module.exports = (req, res, next) => {
+export default(req, res, next) => {
     const { authorization } = req.headers;
 
     if (!authorization) {

@@ -1,4 +1,3 @@
-const express = require('express');
-const serieRouter = express.Router();
+import express from 'express';
 
-module.exports = serieRouter;
+export const serieRouter = express.Router();

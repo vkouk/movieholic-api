@@ -1,12 +1,12 @@
-const Movie = require('../models/Movie');
-const Api = require('../services/Api');
-const { getOne, getAll } = require('./QueryController');
-const { compareData } = require('../services/Validator');
-const moment = require('moment');
+import { Movie } from '../models/Movie';
+import { fetchMovieFromApi } from '../services/Api';
+import { getOne, getAll } from '../controllers/QueryController';
+import { compareData } from '../services/Validator';
+import moment from 'moment';
 
 const getAndStoreMovie = async (req, res) => {
     const { movieTitle, movieYear } = req.body;
-    const movie = await Api.fetchMovieFromApi(movieTitle, movieYear);
+    const movie = await fetchMovieFromApi(movieTitle, movieYear);
     const existingMovie = await Movie.findOne({ title: movie.Title });
 
     if (!movieTitle) {
@@ -46,7 +46,7 @@ const getAndStoreMovie = async (req, res) => {
 const getMovie = (req, res, next) => getOne(Movie)(req,res,next);
 const getAllMovies = (req, res, next) => getAll(Movie)(req,res,next);
 
-module.exports = {
+export {
     getAndStoreMovie,
     getMovie,
     getAllMovies

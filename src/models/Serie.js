@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const serieSchema = new Schema({
     title: {
@@ -35,6 +34,4 @@ const serieSchema = new Schema({
     }
 });
 
-const SerieModel = mongoose.model('series', serieSchema);
-
-module.exports = SerieModel;
+export const Serie = mongoose.model('series', serieSchema);

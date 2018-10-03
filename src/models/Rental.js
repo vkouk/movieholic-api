@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const rentalSchema = new Schema({
     customer: {
@@ -27,6 +26,4 @@ const rentalSchema = new Schema({
     }
 });
 
-const RentalModel = mongoose.model('rental', rentalSchema);
-
-module.exports = RentalModel;
+export const Rental = mongoose.model('rental', rentalSchema);
