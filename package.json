@@ -8,9 +8,8 @@
     "npm": "6.4.1"
   },
   "scripts": {
-    "start": "webpack -p --progess",
-    "dev": "webpack --colors --progress",
-    "heroku-postbuild": "npm run start"
+    "start": "webpack -p --progress",
+    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
   },
   "repository": {
     "type": "git",
