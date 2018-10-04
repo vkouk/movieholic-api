@@ -3,5 +3,6 @@ node_modules
 *.log
 *.error
 dist
+dev.js
 .webpack
 .idea
