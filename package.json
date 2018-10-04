@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "webpack -p --progess",
-    "dev": "webpack --colors --progress"
+    "dev": "webpack --colors --progress",
+    "heroku-postbuild": "npm run start"
   },
   "repository": {
     "type": "git",
