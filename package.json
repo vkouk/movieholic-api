@@ -11,7 +11,7 @@
     "build": "webpack --mode development",
     "prod": "webpack --mode production",
     "start": "node dist/server.js",
-    "heroku-postbuild": "npm run prod && npm run start"
+    "heroku-postbuild": "npm run prod"
   },
   "repository": {
     "type": "git",
