@@ -24,7 +24,14 @@ app.use(
     })
 );
 
-app.use('/api', [ authRouter, movieRouter, rentalRouter, serieRouter ]);
+app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
+
+if (module.hot) {
+    module.hot.accept(['./server'], () => {
+        server.removeListener('request', app);
+        server.on('request', app);
+    })
+}
