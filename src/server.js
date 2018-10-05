@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import config from './config';
+import path from 'path';
 
 import { authRouter, movieRouter, rentalRouter, serieRouter } from './routes';
 
@@ -27,4 +28,5 @@ app.use(
 app.use('/api', [ authRouter, movieRouter, rentalRouter, serieRouter ]);
 
 const PORT = process.env.PORT || 5000;
+app.use(express.static(path.join(__dirname, 'dist')));
 app.listen(PORT);
