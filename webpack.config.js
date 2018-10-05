@@ -38,7 +38,11 @@ module.exports = {
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
         'process.env': { BUILD_TARGET: JSON.stringify('server') },
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        'process.env.mongoURI': JSON.stringify(process.env.mongoURI),
+        'process.env.redisURI': JSON.stringify(process.env.redisURI),
+        'process.env.cookieKey': JSON.stringify(process.env.cookieKey),
+        'process.env.jwtKey': JSON.stringify(process.env.jwtKey),
+        'process.env.omdbApi': JSON.stringify(process.env.omdbApi)
       }),
       new webpack.BannerPlugin({ banner: 'require("source-map-support").install();', raw: true, entryOnly: false })
     ],
