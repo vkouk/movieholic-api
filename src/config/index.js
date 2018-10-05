@@ -1,3 +1,5 @@
+import { merge } from 'lodash';
+
 let envConfig = {};
 
 if (process.env.NODE_ENV === 'production') {
@@ -7,6 +9,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 console.log(process.env.NODE_ENV);
-console.log(envConfig);
+console.log(merge(envConfig));
 
-export default envConfig;
+export default merge(envConfig);
