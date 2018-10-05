@@ -1,6 +1,6 @@
 {
   "name": "movieholic-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Online Movie - Series Renting Application",
   "main": "src/server.js",
   "engines": {
