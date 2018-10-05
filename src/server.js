@@ -1,3 +1,4 @@
+import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
@@ -15,6 +16,8 @@ mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoURI, { useNewUrlParser: true, useCreateIndex: true }).catch(err => console.error(err));
 
 const app = express();
+const server = http.createServer(app);
+let currentApp = app;
 
 app.use(bodyParser.json());
 app.use(
@@ -26,12 +29,13 @@ app.use(
 
 app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT);
-
 if (module.hot) {
     module.hot.accept(['./server'], () => {
-        server.removeListener('request', app);
+        server.removeListener('request', currentApp);
         server.on('request', app);
+        currentApp = app;
     })
 }
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT);
