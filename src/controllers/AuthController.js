@@ -4,7 +4,7 @@ import config from '../config';
 import { User } from '../models/User';
 import gravatar from 'gravatar';
 
-const redisClient = redis.createClient(config.redisURI);
+const redisClient = redis.createClient(config.REDIS_URL);
 
 const signToken = username => {
     const jwtPayload = { username };

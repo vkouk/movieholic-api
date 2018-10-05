@@ -39,7 +39,7 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.env': { BUILD_TARGET: JSON.stringify('server') },
         'process.env.mongoURI': JSON.stringify(process.env.mongoURI),
-        'process.env.redisURI': JSON.stringify(process.env.REDIS_URL),
+        'process.env.REDIS_URL': JSON.stringify(process.env.REDIS_URL),
         'process.env.cookieKey': JSON.stringify(process.env.cookieKey),
         'process.env.jwtKey': JSON.stringify(process.env.jwtKey),
         'process.env.omdbApi': JSON.stringify(process.env.omdbApi)
