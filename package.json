@@ -8,9 +8,9 @@
     "npm": "6.4.1"
   },
   "scripts": {
-    "start": "webpack -p && node dist/server.js",
+    "start": "webpack -p",
     "dev": "webpack -d --colors --progress",
-    "heroku-postbuild": "webpack -p && node dist/server.js"
+    "heroku-postbuild": "webpack -p"
   },
   "repository": {
     "type": "git",
