@@ -11,7 +11,7 @@
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
     "start": "node dist/server.js",
-    "start:dev": "nodemon --exec babel-node src/server.js",
+    "start:dev": "nodemon src/server.js --exec babel-node --presets babel-preset-env",
     "heroku-postbuild": "npm run build:prod"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-regenerator": "^6.26.0",
