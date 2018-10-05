@@ -1,5 +1,3 @@
-import { merge } from 'lodash';
-
 let envConfig = {};
 
 if (process.env.NODE_ENV === 'production') {
@@ -8,7 +6,4 @@ if (process.env.NODE_ENV === 'production') {
     envConfig = require('./dev').config;
 }
 
-console.log(process.env.NODE_ENV);
-console.log(merge(envConfig));
-
-export default merge(envConfig);
+export default envConfig;
