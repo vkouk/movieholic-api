@@ -37,7 +37,8 @@ module.exports = {
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
-        'process.env': { BUILD_TARGET: JSON.stringify('server') }
+        'process.env': { BUILD_TARGET: JSON.stringify('server') },
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
       }),
       new webpack.BannerPlugin({ banner: 'require("source-map-support").install();', raw: true, entryOnly: false })
     ],
