@@ -8,9 +8,9 @@
     "npm": "6.4.1"
   },
   "scripts": {
-    "start": "node node_modules/webpack/bin/webpack.js -p && node server.js",
+    "start": "webpack -p && node dist/server.js",
     "dev": "webpack -d --colors --progress",
-    "heroku-postbuild": "node node_modules/webpack/bin/webpack.js -p && node server.js"
+    "heroku-postbuild": "webpack -p && node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,17 @@
   "author": "Vasilis Koukoutis",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "source-map-support": "^0.5.9",
+    "start-server-webpack-plugin": "^2.2.5",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2",
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
@@ -30,18 +41,5 @@
     "moment": "^2.22.2",
     "mongoose": "^5.3.1",
     "redis": "^2.8.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-regenerator": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-0": "^6.24.1",
-    "source-map-support": "^0.5.9",
-    "start-server-webpack-plugin": "^2.2.5",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-node-externals": "^1.7.2"
   }
 }
