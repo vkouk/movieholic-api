@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "webpack --colors --progress",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false webpack -p --progress"
+    "heroku-postbuild": "webpack -p --progress"
   },
   "repository": {
     "type": "git",
