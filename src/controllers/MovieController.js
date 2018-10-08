@@ -1,10 +1,10 @@
 import { Movie } from '../models/Movie';
 import { fetchMovieFromApi } from '../services/Api';
-import { getOne, getAll } from '../controllers/QueryController';
+import { getEntryByTitleParam, getAll } from '../controllers/QueryController';
 import { compareData } from '../services/Validator';
 import moment from 'moment';
 
-const getAndStoreMovie = async (req, res) => {
+export const getAndStoreMovie = async (req, res) => {
     const { movieTitle, movieYear } = req.body;
     const movie = await fetchMovieFromApi(movieTitle, movieYear);
     const existingMovie = await Movie.findOne({ title: movie.Title });
@@ -26,6 +26,7 @@ const getAndStoreMovie = async (req, res) => {
             title: movie.Title,
             genre: movie.Genre.split(' ,'),
             released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
+            rating: movie.imdbRating,
             poster: movie.Poster,
             plot: movie.Plot
         }
@@ -36,6 +37,7 @@ const getAndStoreMovie = async (req, res) => {
         title: movie.Title,
         genre: movie.Genre.split(' ,'),
         released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
+        rating: movie.imdbRating,
         poster: movie.Poster,
         plot: movie.Plot
     };
@@ -43,11 +45,5 @@ const getAndStoreMovie = async (req, res) => {
     return await new Movie(newMovieEntry).save().then(movie => res.json(movie));
 }
 
-const getMovie = (req, res, next) => getOne(Movie)(req,res,next);
-const getAllMovies = (req, res, next) => getAll(Movie)(req,res,next);
-
-export {
-    getAndStoreMovie,
-    getMovie,
-    getAllMovies
-}
+export const getMovieByTitleParam = (req, res, next) => getEntryByTitleParam(Movie)(req,res,next);
+export const getAllMovies = (req, res, next) => getAll(Movie)(req,res,next);

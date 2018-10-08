@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllMovies, getAndStoreMovie, getMovie } from '../controllers/MovieController';
+import { getAllMovies, getAndStoreMovie, getMovieByTitleParam } from '../controllers/MovieController';
 
 export const movieRouter = express.Router();
 
@@ -8,4 +8,4 @@ movieRouter.route('/movie')
     .post(getAndStoreMovie);
 
 movieRouter.route('/movie/:title')
-    .get(getMovie);
+    .get(getMovieByTitleParam);

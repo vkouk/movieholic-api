@@ -5,14 +5,14 @@ const rentalSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'users'
     },
-    movie: {
+    movie: [{
         type: Schema.Types.ObjectId,
         ref: 'movies'
-    },
-    serie: {
+    }],
+    serie: [{
         type: Schema.Types.ObjectId,
         ref: 'series'
-    },
+    }],
     rentalFee: {
         type: Number,
         min: 0

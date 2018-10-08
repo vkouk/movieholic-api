@@ -6,5 +6,5 @@ export const validateEmail = email => {
 }
 
 export const compareData = (existingMovie, apiMovie) => {
-    return ( (apiMovie.Title !== existingMovie.title) || (!_.isEqual(existingMovie.genre.map(genre => genre), apiMovie.Genre.split(' ,'))) || (apiMovie.Poster !== existingMovie.poster) || (apiMovie.Plot !== existingMovie.plot)) ? false : true;
+    return ( (apiMovie.Title !== existingMovie.title) || (!_.isEqual(existingMovie.genre.map(genre => genre), apiMovie.Genre.split(' ,'))) || (!_.isEqual(existingMovie.rating, apiMovie.imdbRating)) || (apiMovie.Poster !== existingMovie.poster) || (apiMovie.Plot !== existingMovie.plot)) ? false : true;
 }

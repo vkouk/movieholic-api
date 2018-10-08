@@ -1,4 +1,4 @@
-export const getOne = model => async (req, res, next) => {
+export const getEntryByTitleParam = model => async (req, res, next) => {
     return await model.findOne({ title: req.params.title })
         .then(doc => res.json(doc))
         .catch(error => next(error));

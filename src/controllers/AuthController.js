@@ -8,7 +8,7 @@ const redisClient = redis.createClient(config.REDIS_URL);
 
 const signToken = username => {
     const jwtPayload = { username };
-    return jwt.sign(jwtPayload, keys.jwtKey, { expiresIn: '2 days'});
+    return jwt.sign(jwtPayload, config.jwtKey, { expiresIn: '2 days'});
 };
 
 const setToken = (key, value) => Promise.resolve(redisClient.set(key, value.toString()));
