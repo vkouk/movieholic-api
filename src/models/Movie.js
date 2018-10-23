@@ -5,10 +5,14 @@ const movieSchema = new Schema({
         type: String,
         required: true
     },
-    genre: [{
+    genre: {
         type: String,
         required: true
-    }],
+    },
+    writer: {
+        type: String,
+        required: true
+    },
     rating: {
         type: String,
         required: true

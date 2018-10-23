@@ -5,4 +5,4 @@ export const validateEmail = email => {
     return re.test(String(email).toLowerCase());
 };
 
-export const compareData = (existingMovie, apiMovie) => (!(((apiMovie.Title !== existingMovie.title) || (!_.isEqual(existingMovie.genre.map(genre => genre), apiMovie.Genre.split(" ,"))) || (!_.isEqual(existingMovie.rating, apiMovie.imdbRating)) || (apiMovie.Poster !== existingMovie.poster) || (apiMovie.Plot !== existingMovie.plot))));
+export const compareData = (existingMovie, apiMovie) => (!(((apiMovie.Title !== existingMovie.title) || (!_.isEqual(existingMovie.genre, apiMovie.Genre)) || (!_.isEqual(existingMovie.writer, apiMovie.Writer)) || (!_.isEqual(existingMovie.rating, apiMovie.imdbRating)) || (apiMovie.Poster !== existingMovie.poster) || (apiMovie.Plot !== existingMovie.plot))));

@@ -14,7 +14,7 @@ export const getAndStoreMovie = async (req, res) => {
     }
 
     if (movie.Error || movie.Response === 'False') {
-        return res.status(403).send('Movie Not Found');
+        return res.status(404).send('Movie Not Found');
     }
 
     if (existingMovie) {
@@ -24,7 +24,8 @@ export const getAndStoreMovie = async (req, res) => {
 
         const updateMovieData = {
             title: movie.Title,
-            genre: movie.Genre.split(' ,'),
+            genre: movie.Genre,
+            writer: movie.Writer,
             released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
             rating: movie.imdbRating,
             poster: movie.Poster,
@@ -36,7 +37,8 @@ export const getAndStoreMovie = async (req, res) => {
 
     const newMovieEntry = {
         title: movie.Title,
-        genre: movie.Genre.split(' ,'),
+        genre: movie.Genre,
+        writer: movie.Writer,
         released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
         rating: movie.imdbRating,
         poster: movie.Poster,
