@@ -29,7 +29,8 @@ export const getAndStoreMovie = async (req, res) => {
             rating: movie.imdbRating,
             poster: movie.Poster,
             plot: movie.Plot
-        }
+        };
+
         return Movie.findOneAndUpdate({ title: movie.Title }, { $set: updateMovieData }, { new: true }).then(movieRecord => res.json(movieRecord));
     }
 
@@ -43,7 +44,7 @@ export const getAndStoreMovie = async (req, res) => {
     };
 
     return await new Movie(newMovieEntry).save().then(movie => res.json(movie));
-}
+};
 
 export const getMovieByTitleParam = (req, res, next) => getEntryByTitleParam(Movie)(req,res,next);
 export const getAllMovies = (req, res, next) => getAll(Movie)(req,res,next);

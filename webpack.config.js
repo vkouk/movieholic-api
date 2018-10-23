@@ -20,7 +20,7 @@ module.exports = {
             options: {
               babelrc: false,
               presets: [['env', { modules: false }], 'stage-0'],
-              plugins: ['transform-regenerator', 'transform-runtime']
+              plugins: ['transform-regenerator', 'transform-runtime', 'transform-object-rest-spread']
             }
           }
         ],

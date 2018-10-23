@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import cookieSession from "cookie-session";
 import mongoose from "mongoose";
 import config from "./config";
 
@@ -19,13 +18,6 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true, useCreateIndex: true 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(
-    cookieSession({
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-        keys: [config.cookieKey]
-    })
-);
-
 app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
 
 const PORT = process.env.PORT || 5000;
