@@ -13,10 +13,6 @@ const serieSchema = new Schema({
         type: String,
         required: true
     },
-    year: {
-        type: String,
-        required: true
-    },
     released: {
         type: String,
         required: true

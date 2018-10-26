@@ -8,5 +8,5 @@ authRouter.post('/user/login', handleSignIn);
 authRouter.post('/user/register', handleRegister);
 
 authRouter.route('/user/profile/:username')
-    .get(handleGetProfile, requireAuth)
-    .post(handleUpdateProfile, requireAuth);
+    .get(requireAuth, handleGetProfile)
+    .post(requireAuth, handleUpdateProfile);
