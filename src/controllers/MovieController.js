@@ -4,6 +4,16 @@ import { getEntryByTitleParam, getAll } from '../controllers/QueryController';
 import { compareData } from '../services/Validator';
 import moment from 'moment';
 
+const movieData = movie => ({
+    title: movie.Title,
+    genre: movie.Genre,
+    writer: movie.Writer,
+    released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
+    rating: movie.imdbRating,
+    poster: movie.Poster,
+    plot: movie.Plot
+});
+
 export const getAndStoreMovie = async (req, res) => {
     const { movieTitle, movieYear } = req.body;
     const movie = await fetchMovieFromApi(movieTitle, movieYear);
@@ -22,30 +32,12 @@ export const getAndStoreMovie = async (req, res) => {
             return res.json(existingMovie);
         }
 
-        const updateMovieData = {
-            title: movie.Title,
-            genre: movie.Genre,
-            writer: movie.Writer,
-            released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
-            rating: movie.imdbRating,
-            poster: movie.Poster,
-            plot: movie.Plot
-        };
-
+        const updateMovieData = movieData(movie);
         return Movie.findOneAndUpdate({ title: movie.Title }, { $set: updateMovieData }, { new: true }).then(movieRecord => res.json(movieRecord));
     }
 
-    const newMovieEntry = {
-        title: movie.Title,
-        genre: movie.Genre,
-        writer: movie.Writer,
-        released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
-        rating: movie.imdbRating,
-        poster: movie.Poster,
-        plot: movie.Plot
-    };
-
-    return await new Movie(newMovieEntry).save().then(movie => res.json(movie));
+    const newMovieEntry = movieData(movie);
+    return new Movie(newMovieEntry).save().then(movie => res.json(movie));
 };
 
 export const getMovieByTitleParam = (req, res, next) => getEntryByTitleParam(Movie)(req,res,next);
