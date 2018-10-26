@@ -1,6 +1,7 @@
 import redis from 'redis';
 import jwt from 'jsonwebtoken';
 import config from '../config';
+import { validateEmail } from '../services/Validator';
 import { User } from '../models/User';
 import gravatar from 'gravatar';
 
@@ -8,7 +9,7 @@ const redisClient = redis.createClient(config.REDIS_URL);
 
 const signToken = username => {
     const jwtPayload = { username };
-    return jwt.sign(jwtPayload, config.jwtKey, { expiresIn: '2 days'});
+    return jwt.sign(jwtPayload, config.jwtKey, { expiresIn: '2 days' });
 };
 
 const setToken = (key, value) => Promise.resolve(redisClient.set(key, value.toString()));
@@ -52,14 +53,14 @@ const handleSignIn = (req, res) => {
     }).catch(error => res.status(400).send(error));
 };
 
-const handleRegister = async(req, res, next) => {
+const handleRegister = async (req, res, next) => {
     const { email, username, password } = req.body;
 
     if (!email || !username || !password) {
         return res.status(422).send('Incorrect form submission');
     }
 
-    const existingUser = await User.findOne({ $or: [ { email }, { username }]});
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
     if (existingUser) {
         return res.status(422).send('Email or Username is already in use');
@@ -79,8 +80,28 @@ const handleRegister = async(req, res, next) => {
     });
 };
 
-export { 
+const handleGetProfile = async (req, res, next) => User.findOne({ username: req.params.username }).then(user => res.json(user)).catch(() => res.status(404).send('User not found'));
+
+const handleUpdateProfile = async (req, res, next) => {
+    const { email, username } = req.body;
+
+    if (!validateEmail(email)) {
+        return res.status(403).send('Please type a correct email type');
+    }
+
+    return User.findOneAndUpdate({ username: req.params.username }, { $set: { email, username } }, { new: true }).then(async user => {
+        await user.save(err => {
+            if (err) throw err;
+
+            res.json(user);
+        });
+    }).catch(() => res.status(400).send('User not found'));
+};
+
+export {
     handleSignIn,
     handleRegister,
-    redisClient 
+    handleGetProfile,
+    handleUpdateProfile,
+    redisClient
 };
