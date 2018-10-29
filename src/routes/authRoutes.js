@@ -7,6 +7,6 @@ export const authRouter = express.Router();
 authRouter.post('/user/login', handleSignIn);
 authRouter.post('/user/register', handleRegister);
 
-authRouter.route('/user/profile/:username')
+authRouter.route('/user/profile/:id')
     .get(requireAuth, handleGetProfile)
     .post(requireAuth, handleUpdateProfile);

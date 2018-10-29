@@ -80,7 +80,7 @@ const handleRegister = async (req, res, next) => {
     });
 };
 
-const handleGetProfile = async (req, res, next) => User.findOne({ username: req.params.username }).then(user => res.json(user)).catch(() => res.status(404).send('User not found'));
+const handleGetProfile = async (req, res, next) => User.findOne({ id: req.params.id }).then(user => res.json(user)).catch(() => res.status(404).send('User not found'));
 
 const handleUpdateProfile = async (req, res, next) => {
     const { email, username } = req.body;
