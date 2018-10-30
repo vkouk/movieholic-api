@@ -28,7 +28,7 @@ const corsOptions = {
         }
     }
 };
-app.use(cors(corsOptions));
+app.use(cors(corsOptions.origin()));
 app.use(bodyParser.json());
 app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
 
