@@ -18,7 +18,7 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true, useCreateIndex: true 
 
 const app = express();
 
-let allowedOrigins = ['http://localhost:3000', 'http://movieholic.herokuapp.com'];
+let allowedOrigins = ['http://localhost:3000', 'http://movieholic.herokuapp.com', 'https://movieholic.herokuapp.com'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin) return callback(null, true);
