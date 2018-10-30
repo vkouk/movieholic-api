@@ -89,7 +89,7 @@ const handleUpdateProfile = async (req, res, next) => {
         return res.status(403).send('Please type a correct email type');
     }
 
-    return User.findOneAndUpdate({ username: req.params.username }, { $set: { email, username } }, { new: true }).then(async user => {
+    return User.findById(req.params.id, { $set: { email, username } }, { new: true }).then(async user => {
         await user.save(err => {
             if (err) throw err;
 
