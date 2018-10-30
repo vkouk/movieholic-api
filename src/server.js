@@ -18,7 +18,16 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true, useCreateIndex: true 
 
 const app = express();
 
-app.use(cors());
+let allowedOrigins = ['http://localhost:3000', 'http://movieholic.herokuapp.com'];
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false);
+        }
+        return callback(null, true);
+    }
+}));
 app.use(bodyParser.json());
 app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
 
