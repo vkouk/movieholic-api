@@ -18,7 +18,7 @@ mongoose.connect(config.mongoURI, { useNewUrlParser: true, useCreateIndex: true 
 
 const app = express();
 
-app.use(cors();
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
 
