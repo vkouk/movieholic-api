@@ -1,7 +1,7 @@
 import redis from 'redis';
 import jwt from 'jsonwebtoken';
 import config from '../config';
-import { helpers } from '../helpers/Validator';
+import { validateEmail } from '../helpers/Validator';
 import { User } from '../models/User';
 import gravatar from 'gravatar';
 
