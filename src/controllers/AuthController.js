@@ -89,13 +89,11 @@ const handleUpdateProfile = async (req, res, next) => {
         return res.status(403).send('Please type a correct email type');
     }
 
-    return User.findById(req.params.id, { $set: { email, username } }, { new: true }).then(async user => {
-        await user.save(err => {
-            if (err) throw err;
+    return User.findOneAndUpdate({ _id: req.params.id }, { $set: { email, username } }, { new: true }).exec((err, user) => {
+        if (err) { return res.status(500).json(err); }
 
-            res.json(user);
-        });
-    }).catch(() => res.status(404).send('User not found'));
+        res.json(user);
+    });
 };
 
 export {
