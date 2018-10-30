@@ -50,7 +50,7 @@ const handleSignIn = (req, res) => {
                 .then(session => res.json(session))
                 .catch(err => res.status(400).send(err)) : Promise.reject(user);
         });
-    }).catch(error => res.status(400).send(error));
+    }).catch(() => res.status(404).send('User not found'));
 };
 
 const handleRegister = async (req, res, next) => {
@@ -95,7 +95,7 @@ const handleUpdateProfile = async (req, res, next) => {
 
             res.json(user);
         });
-    }).catch(() => res.status(400).send('User not found'));
+    }).catch(() => res.status(404).send('User not found'));
 };
 
 export {
