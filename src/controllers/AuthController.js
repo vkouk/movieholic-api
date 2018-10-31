@@ -90,7 +90,7 @@ const handleUpdateProfile = async (req, res, next) => {
     }
 
     return User.findOneAndUpdate({ _id: req.params.id }, { $set: { email, username } }, { new: true }).exec((err, user) => {
-        if (err) { return res.status(500).json(err); }
+        if (err) { return res.status(500).json('Username or Email already exists'); }
 
         res.json(user);
     });
