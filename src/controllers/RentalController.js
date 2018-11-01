@@ -2,7 +2,6 @@ import { Rental } from '../models/Rental';
 import { Movie } from '../models/Movie';
 import { Serie } from '../models/Serie';
 import { User } from '../models/User';
-import { getEntryByTitleParam } from './QueryController';
 import _ from 'lodash';
 
 const calculateAmount = data => {
@@ -17,10 +16,12 @@ const calculateAmount = data => {
     });
 };
 
-export const storeRent = userId => async (req, res) => {
+export const storeRent = () => async (req, res) => {
+    const { userId, movieTitle, serieTitle } = req.body;
+
     const user = await User.findById(userId);
-    const movie = getEntryByTitleParam(Movie);
-    const serie = getEntryByTitleParam(Serie);
+    const movie = await Movie.findOne({ title: movieTitle });
+    const serie = await Movie.findOne({ title: serieTitle });
 
     if (!user || (!movie && !serie)) {
         return res.status(404).send('Seems something is missing');
