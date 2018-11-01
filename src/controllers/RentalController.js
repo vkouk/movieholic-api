@@ -35,13 +35,7 @@ export const storeRent = () => async (req, res) => {
         return res.status(403).send('Oups, seems we have run out of stock of this product');
     }
 
-    const rentalData = {
-        customer: user._id,
-        movie: movie._id,
-        serie: serie._id
-    };
-
-    return new Rental(rentalData).save().then(rent => {
+    return new Rental({ customer: userId }, { $push: { movie: movie._id, serie: serie._id } } ).save().then(rent => {
         const movie = rent.populate('movie');
         const serie = rent.populate('serie');
 
