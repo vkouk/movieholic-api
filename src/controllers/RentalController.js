@@ -16,12 +16,12 @@ const calculateAmount = data => {
     });
 };
 
-export const storeRent = () => async (req, res) => {
-    const { userId, movieTitle, serieTitle } = req.body;
+export const storeRent = async (req, res) => {
+    const { userId, movieId, serieId } = req.body;
 
     const user = await User.findById(userId);
-    const movie = await Movie.findOne({ title: movieTitle });
-    const serie = await Movie.findOne({ title: serieTitle });
+    const movie = await Movie.findById(movieId);
+    const serie = await Serie.findById(serieId);
 
     if (!user || (!movie && !serie)) {
         return res.status(404).send('Seems something is missing');
@@ -36,26 +36,10 @@ export const storeRent = () => async (req, res) => {
     }
 
     const rental = new Rental({ customer: userId });
-    rental.movie.unshift(movie._id);
-    rental.serie.unshift(serie._id);
+    rental.movie.unshift(movieId);
+    rental.serie.unshift(serieId);
 
-    return rental.save().then(rent => {
-        //Implement the stock thing.
-
-        // const movie = rent.populate('movie');
-        // const serie = rent.populate('serie');
-
-        // if (movie && serie) {
-        //     movie.stock--;
-        //     serie.stock--;
-        // } else if (serie) {
-        //     serie.stock--;
-        // } else {
-        //     serie.stock--;
-        // }
-
-        res.json(rent);
-    });
+    return rental.save().then(rent => res.json(rent));
 };
 
 export const getAllRents = (req, res) => {
