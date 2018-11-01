@@ -35,18 +35,24 @@ export const storeRent = () => async (req, res) => {
         return res.status(403).send('Oups, seems we have run out of stock of this product');
     }
 
-    return new Rental({ customer: userId }, { $push: { movie: movie._id, serie: serie._id } } ).save().then(rent => {
-        const movie = rent.populate('movie');
-        const serie = rent.populate('serie');
+    const rental = new Rental({ customer: userId });
+    rental.movie.unshift(movie._id);
+    rental.serie.unshift(serie._id);
 
-        if (movie && serie) {
-            movie.stock--;
-            serie.stock--;
-        } else if (serie) {
-            serie.stock--;
-        } else {
-            serie.stock--;
-        }
+    return rental.save().then(rent => {
+        //Implement the stock thing.
+
+        // const movie = rent.populate('movie');
+        // const serie = rent.populate('serie');
+
+        // if (movie && serie) {
+        //     movie.stock--;
+        //     serie.stock--;
+        // } else if (serie) {
+        //     serie.stock--;
+        // } else {
+        //     serie.stock--;
+        // }
 
         res.json(rent);
     });
