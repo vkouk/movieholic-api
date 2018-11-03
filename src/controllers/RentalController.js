@@ -4,58 +4,68 @@ import { Serie } from '../models/Serie';
 import { User } from '../models/User';
 import _ from 'lodash';
 
-const calculateAmount = data => {
-    return data.map(record => {
-        if (record.movie && !record.serie) {
-            record.returnFee(_.toNumber(record.movie.rating));
-        } else if (record.serie && !record.movie) {
-            record.returnFee(_.toNumber(record.serie.rating));
-        } else {
-            record.returnFee(_.toNumber(record.movie.rating) + _.toNumber(record.serie.rating));
-        }
-    });
-};
-
 export const storeRent = async (req, res) => {
-    const { userId, movieId, serieId } = req.body;
+    const { userId, moviesId, seriesId } = req.body;
 
     const user = await User.findById(userId);
-    const movie = await Movie.findById(movieId);
-    const serie = await Serie.findById(serieId);
+    const movies = await Movie.find({
+        $and: [
+            { _id: { $in: moviesId } },
+            { stock: { $gt: 0 } }
+        ]
+    });
+    const series = await Serie.find({
+        $and: [
+            { _id: { $in: seriesId } },
+            { stock: { $gt: 0 } }
+        ]
+    });
 
-    if (!user || (!movie && !serie)) {
-        return res.status(404).send('Seems something is missing');
+    if (!user || (movies.length <= 0 && series.length <= 0)) {
+        return res.status(404).send('Seems something is missing or products are out of stock');
     }
 
     if (user.balance <= 0) {
         return res.status(403).send("Sorry seems your balance isn't enough");
     }
 
-    if (movie.stock <= 0 || serie.stock <= 0) {
-        return res.status(403).send('Oups, seems we have run out of stock of this product');
-    }
-
     const rental = new Rental({ customer: userId });
-    rental.movie.unshift(movieId);
-    rental.serie.unshift(serieId);
 
-    return rental.save().then(rent => res.json(rent));
+    return rental.save()
+        .then(rent => {
+            Rental.findByIdAndUpdate(rent._id, { $push: { movies: { $each: moviesId }, series: { $each: seriesId } } }, { new: true })
+                .exec((err, rent) => {
+                    if (err) { return res.status(503).json(err); }
+
+                    rent.movies.map(movie => {
+                        Movie.update({ _id: movie._id }, { $inc: { stock: -1 } }, err => {
+                            if (err) { return res.status(503).send('Error updating movie.'); }
+                        });
+                    });
+                    rent.series.map(serie => {
+                        Serie.update({ _id: serie._id }, { $inc: { stock: -1 } }, err => {
+                            if (err) { return res.status(503).send('Error updating serie.'); }
+                        });
+                    });
+
+                    res.json(rent);
+                });
+        })
+        .catch(() => res.status(503).send('Error saving your renting.'));
 };
 
 export const getAllRents = (req, res) => {
-    return Rental.find({}).populate('customer').populate('movie').populate('serie')
+    return Rental.find({}).populate('customer').populate('movies').populate('series')
         .exec((err, data) => {
             if (err) throw err;
-            calculateAmount(data);
             res.json(data);
         });
 };
 
 export const getRentById = (req, res) => {
-    return Rental.findById(req.params.id).populate('customer').populate('movie').populate('serie')
+    return Rental.findById(req.params.id).populate('customer').populate('movies').populate('series')
         .exec((err, data) => {
             if (err) throw err;
-            calculateAmount(data);
             res.json(data);
         });
 };
