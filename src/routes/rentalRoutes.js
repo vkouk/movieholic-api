@@ -9,4 +9,4 @@ rentalRouter.route('/rent')
     .post(requireAuth, storeRent);
 
 rentalRouter.get('/rent/:id', requireAuth, getRentById);
-rentalRouter.get('/rent/user', requireAuth, getRentByUser);
+rentalRouter.post('/rent/user', requireAuth, getRentByUser);
