@@ -69,3 +69,11 @@ export const getRentById = (req, res) => {
             res.json(data);
         });
 };
+
+export const getRentByUser = (req, res) => {
+    return Rental.findOne({ customer: req.body.customerId }).populate('customer').populate('movies').populate('series')
+        .exec((err, data) => {
+            if (err) throw err;
+            res.json(data);
+        });
+};
