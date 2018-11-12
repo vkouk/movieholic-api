@@ -108,7 +108,7 @@ const handleAddUserBalance = async (req, res) => {
         source: id
     });
 
-    const user = getEntryByValue(User, userId);
+    const user = await User.findById(userId);
     user.balance += amount;
     await user.save().then(newUser => res.json(newUser)).catch(() => res.status(404).send('Error saving new user data'));
 };
