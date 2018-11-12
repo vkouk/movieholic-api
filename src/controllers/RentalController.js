@@ -1,8 +1,10 @@
+import _ from 'lodash';
+import config from '../config';
 import { Rental } from '../models/Rental';
 import { Movie } from '../models/Movie';
 import { Serie } from '../models/Serie';
 import { User } from '../models/User';
-import _ from 'lodash';
+const stripe = require("stripe")(config.stripeKeySecret);
 
 export const storeRent = async (req, res) => {
     const { userId, moviesId, seriesId } = req.body;
@@ -52,6 +54,53 @@ export const storeRent = async (req, res) => {
                 });
         })
         .catch(() => res.status(503).send('Error saving your renting.'));
+};
+
+export const returnRent = async (req, res) => {
+    const { rentId, id } = req.body;
+    const rental = await Rental.findById(rentId).populate('customer').populate('movies').populate('series');
+
+    if (!rental) {
+        return res.status(404).send('No rental found');
+    }
+
+    if (rental.dateReturned) {
+        return res.status(503).send(`Order with ID: ${rental._id} has already been returned`);
+    }
+
+    if (rental.rentalFee > rental.customer.balance) {
+        return res.status(503).send(`Dear/Madam, ${rental.customer.username} your balance isn't enough to return your order`);
+    }
+
+    rental.returnRental(rental.movies, rental.series);
+
+    await stripe.charges.create({
+        amount: (Math.floor(rental.rentalFee)) * 100,
+        currency: 'EUR',
+        description: `Return fee of ${Math.floor(rental.rentalFee)}`,
+        source: id
+    });
+
+    return rental.save()
+        .then(rent => {
+            rent.movies.map(movie => {
+                Movie.update({ _id: movie._id }, { $inc: { stock: 1 } }, err => {
+                    if (err) { return res.status(503).send('Error updating movie.'); }
+                });
+            });
+            rent.series.map(serie => {
+                Serie.update({ _id: serie._id }, { $inc: { stock: 1 } }, err => {
+                    if (err) { return res.status(503).send('Error updating serie.'); }
+                });
+            });
+
+            User.update({ _id: rent.customer._id }, { $inc: { balance: -rent.rentalFee } }, err => {
+                if (err) { return res.status(503).send('Error updating user.'); }
+            });
+
+            res.json(rent);
+        })
+        .catch(() => res.status(503).send('Error saving your order return.'));
 };
 
 export const getAllRents = (req, res) => {

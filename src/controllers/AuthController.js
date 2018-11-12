@@ -85,13 +85,13 @@ const handleRegister = async (req, res, next) => {
 const handleGetProfile = async (req, res, next) => User.findById(req.params.id).then(user => res.json(user)).catch(() => res.status(404).send('User not found'));
 
 const handleUpdateProfile = async (req, res, next) => {
-    const { email, username } = req.body;
+    const { email, username, avatar } = req.body;
 
     if (!validateEmail(email)) {
         return res.status(403).send('Please type a correct email type');
     }
 
-    return User.findOneAndUpdate({ _id: req.params.id }, { $set: { email, username } }, { new: true }).exec((err, user) => {
+    return User.findOneAndUpdate({ _id: req.params.id }, { $set: { email, username, avatar } }, { new: true }).exec((err, user) => {
         if (err) { return res.status(500).json('Username or Email already exists'); }
 
         res.json(user);
