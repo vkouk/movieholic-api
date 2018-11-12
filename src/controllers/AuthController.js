@@ -4,6 +4,8 @@ import config from '../config';
 import { validateEmail } from '../helpers/Validator';
 import { User } from '../models/User';
 import gravatar from 'gravatar';
+import { getEntryByValue } from './QueryController';
+const stripe = require("stripe")(config.stripeKeySecret);
 
 const redisClient = redis.createClient(config.REDIS_URL);
 
@@ -96,10 +98,26 @@ const handleUpdateProfile = async (req, res, next) => {
     });
 };
 
+const handleAddUserBalance = async (req, res) => {
+    const { amount, id, userId } = req.body;
+
+    await stripe.charges.create({
+        amount,
+        currency: 'eur',
+        description: `€${amount} Deposit`,
+        source: id
+    });
+
+    const user = getEntryByValue(User, userId);
+    user.balance += amount;
+    await user.save().then(newUser => res.json(newUser)).catch(() => res.status(404).send('Error saving new user data'));
+};
+
 export {
     handleSignIn,
     handleRegister,
     handleGetProfile,
     handleUpdateProfile,
+    handleAddUserBalance,
     redisClient
 };

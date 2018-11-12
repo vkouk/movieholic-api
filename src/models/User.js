@@ -22,7 +22,7 @@ const userSchema = new Schema({
     },
     balance: {
         type: Number,
-        default: 50
+        default: 10
     },
     avatar: {
         type: String
