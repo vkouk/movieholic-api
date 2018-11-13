@@ -13,10 +13,6 @@ const Reccomendation = async (req, res) => {
     const movies = await Movie.find({});
     const series = await Serie.find({});
 
-    if (!rentals) {
-        return res.status(404).send('No reccomendations found for this user');
-    }
-
     rentals.map(rent => {
         if (rent.movies.length >= 1 || rent.series.length >= 1) {
             rent.movies.map(movie => {
@@ -90,7 +86,11 @@ const Reccomendation = async (req, res) => {
     });
     suggestedProducts.sort((a, b) => b.wanted - a.wanted);
 
-    res.json(suggestedProducts);
+    if (!rentals || !suggestedProducts) {
+        return res.status(404).send('No reccomendations found for this user');
+    }
+
+    return res.json(suggestedProducts);
 };
 
 export default Reccomendation;
