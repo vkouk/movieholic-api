@@ -53,7 +53,7 @@ const Reccomendation = async (req, res) => {
     const trainingData = [
         {
             input: {
-                rating: parseFloat("4.3"), genre: 2, stock: 2
+                rating: parseFloat((Math.random() * (0.0 - 9.9) + 9.9)).toFixed(2), genre: 2, stock: 2
             },
             output: { wanted: 0 }
         }
