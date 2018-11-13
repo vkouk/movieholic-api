@@ -75,7 +75,7 @@ export const returnRent = async (req, res) => {
     rental.returnRental(rental.movies, rental.series);
 
     await stripe.charges.create({
-        amount: rental.rentalFee * 100,
+        amount: rental.rentalFee,
         currency: 'EUR',
         description: `Return fee of ${rental.rentalFee}`,
         source: id

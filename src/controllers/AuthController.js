@@ -102,7 +102,7 @@ const handleAddUserBalance = async (req, res) => {
     const { amount, id, userId } = req.body;
 
     await stripe.charges.create({
-        amount: amount * 100,
+        amount: amount,
         currency: 'EUR',
         description: `€${amount} Deposit`,
         source: id
