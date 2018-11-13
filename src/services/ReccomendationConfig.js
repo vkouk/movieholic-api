@@ -8,11 +8,11 @@ export const getNormalizedItemFromStock = (index, array) => {
     const trainingInformation = item.trainingInformation;
     return {
         trainingInformation: {
-            writer: trainingInformation.writer,
             rating: trainingInformation.rating,
             genre: trainingInformation.genre,
             stock: trainingInformation.stock
-        }
+        },
+        id: item.id
     };
 };
 
