@@ -90,7 +90,15 @@ const Reccomendation = async (req, res) => {
         return res.status(404).send('No reccomendations found for this user');
     }
 
-    return res.json(suggestedProducts);
+    const suggestedId = suggestedProducts.slice(suggestedProducts.length - 10, suggestedProducts.length).map(product => product.id);
+    const suggestedSeries = await Serie.find({
+        _id: { $in: suggestedId }
+    });
+    const suggestedMovies = await Movie.find({
+        _id: { $in: suggestedId }
+    });
+    
+    return res.json({ suggestedMovies, suggestedSeries });
 };
 
 export default Reccomendation;
