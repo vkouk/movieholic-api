@@ -13,4 +13,4 @@ authRouter.route('/user/profile/:id')
     .post(requireAuth, handleUpdateProfile);
 
 authRouter.post('/user/addbalance', requireAuth, handleAddUserBalance);
-authRouter.post('/user/productreccomends', requireAuth, Reccomendation);
+authRouter.post('/user/reccomendations', requireAuth, Reccomendation);
