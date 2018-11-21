@@ -1,6 +1,5 @@
 import express from 'express';
 import { handleSignIn, handleRegister, handleGetProfile, handleUpdateProfile, handleAddUserBalance } from '../controllers/AuthController';
-import Reccomendation from '../services/Reccomendation';
 import requireAuth from '../middlewares/requireAuth';
 
 export const authRouter = express.Router();
@@ -13,4 +12,3 @@ authRouter.route('/user/profile/:id')
     .post(requireAuth, handleUpdateProfile);
 
 authRouter.post('/user/addbalance', requireAuth, handleAddUserBalance);
-authRouter.post('/user/reccomendations', requireAuth, Reccomendation);

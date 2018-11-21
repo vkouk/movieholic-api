@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import config from "./config";
 
 import {
-    authRouter, movieRouter, rentalRouter, serieRouter
+    authRouter, movieRouter, rentalRouter, serieRouter, recommendationRouter
 } from "./routes";
 
 require("./models/User");
@@ -29,7 +29,7 @@ app.use(cors({
     }
 }));
 app.use(bodyParser.json());
-app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter]);
+app.use('/api', [authRouter, movieRouter, rentalRouter, serieRouter, recommendationRouter]);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
