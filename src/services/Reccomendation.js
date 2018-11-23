@@ -1,5 +1,5 @@
 import brain from "brain.js";
-import { neuralConfig, getNormalizedItemFromStock, getProductGenre } from './ReccomendationConfig';
+import { neuralConfig, getNormalizedItemFromStock, pushTrainingData } from './ReccomendationConfig';
 import { Rental } from "../models/Rental";
 import { Movie } from "../models/Movie";
 import { Serie } from "../models/Serie";
@@ -15,40 +15,16 @@ const Reccomendation = async (req, res) => {
 
     rentals.map(rent => {
         if (rent.movies.length >= 1 || rent.series.length >= 1) {
-            rent.movies.map(movie => {
-                userRents.push({
-                    trainingInformation: {
-                        rating: isNaN(parseFloat(movie.rating)) ? 0 : parseFloat(movie.rating), genre: getProductGenre(movie), stock: movie.stock
-                    },
-                    id: movie._id
-                });
-            });
-            rent.series.map(serie => {
-                userRents.push({
-                    trainingInformation: {
-                        rating: parseFloat(serie.rating), genre: getProductGenre(serie), stock: serie.stock
-                    },
-                    id: serie._id
-                });
-            });
+            pushTrainingData(rent.movies, userRents);
+            pushTrainingData(rent.series, userRents);
         }
     });
-    movies.map(movie => {
-        storedMovies.push({
-            trainingInformation: {
-                rating: isNaN(parseFloat(movie.rating)) ? 0 : parseFloat(movie.rating), genre: getProductGenre(movie), stock: movie.stock
-            },
-            id: movie._id
-        });
-    });
-    series.map(serie => {
-        storedSeries.push({
-            trainingInformation: {
-                rating: isNaN(parseFloat(serie.rating)) ? 0 : parseFloat(serie.rating), genre: getProductGenre(serie), stock: serie.stock
-            },
-            id: serie._id
-        });
-    });
+    const rentMoviesLength = rentals.reduce((acc, curr) => acc + curr.movies.length, 0);
+    const rentSeriesLength = rentals.reduce((acc, curr) => acc + curr.series.length, 0);
+    if (rentMoviesLength >= 1 || rentSeriesLength >= 1) {
+        pushTrainingData(movies, storedMovies);
+        pushTrainingData(series, storedSeries);
+    }
 
     const trainingData = [
         {
@@ -97,7 +73,7 @@ const Reccomendation = async (req, res) => {
     const suggestedMovies = await Movie.find({
         _id: { $in: suggestedId }
     });
-    
+
     return res.json({ suggestedMovies, suggestedSeries });
 };
 

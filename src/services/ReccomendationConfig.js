@@ -26,7 +26,7 @@ export const getProductGenre = product => {
             return 2;
         case 'Animation, Action, Adventure, Crime, Drama, Sci-Fi, Thriller':
             return 3;
-        case 'Crime, Drama, Film-Noir, Mystery, Thriller':
+        case 'Crime, Drama, Horror, Mystery, Thriller':
             return 4;
         case 'Documentary, Family':
             return 5;
@@ -42,7 +42,32 @@ export const getProductGenre = product => {
             return 10;
         case 'Animation, Action, Adventure':
             return 11;
+        case 'Comedy, Horror, Reality-TV':
+            return 12;
+        case 'Drama, Fantasy, Horror, Mystery, Sci-Fi, Thriller':
+            return 13;
+        case 'Comedy, Crime, Drama':
+            return 14;
+        case 'Crime, Drama, Mystery, Romance':
+            return 15;
+        case 'Drama, Fantasy, Mystery, Romance, Thriller':
+            return 16;
+        case 'Crime, Drama, Thriller':
+            return 17;
+        case 'Crime, Drama':
+            return 18;
         default:
             return 0;
     }
+};
+
+export const pushTrainingData = (data, array) => {
+    return data.map(record => {
+        array.push({
+            trainingInformation: {
+                rating: isNaN(parseFloat(record.rating)) ? 0 : parseFloat(record.rating), genre: getProductGenre(record), stock: record.stock
+            },
+            id: record._id
+        });
+    });
 };
