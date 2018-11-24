@@ -56,6 +56,12 @@ export const getProductGenre = product => {
             return 17;
         case 'Crime, Drama':
             return 18;
+        case 'Comedy, Family':
+            return 19;
+        case 'Animation, Family, Fantasy, Musical':
+            return 20;
+        case 'Animation, Short, Comedy, Family, Fantasy, Musical':
+            return 21;
         default:
             return 0;
     }
