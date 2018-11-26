@@ -66,7 +66,7 @@ const Reccomendation = async (req, res) => {
         return res.status(404).send('No reccomendations found for this user');
     }
 
-    const suggestedId = suggestedProducts.slice(suggestedProducts.length - 50, suggestedProducts.length).map(product => product.id);
+    const suggestedId = suggestedProducts.slice(suggestedProducts.length - 100, suggestedProducts.length).map(product => product.id);
     const suggestedSeries = await Serie.find({
         _id: { $in: suggestedId }
     });
