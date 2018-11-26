@@ -68,7 +68,7 @@ export const returnRent = async (req, res) => {
         return res.status(503).send(`Order with ID: ${rental._id} has already been returned`);
     }
 
-    if (rental.rentalFee > rental.customer.balance) {
+    if (rental.rentalFee > rental.customer.balance || rental.customer.balance <= 0) {
         return res.status(503).send(`Dear/Madam, ${rental.customer.username} your balance isn't enough to return your order`);
     }
 
