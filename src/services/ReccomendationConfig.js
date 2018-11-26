@@ -68,6 +68,10 @@ export const getProductGenre = product => {
             return 23;
         case 'Action, Adventure, Crime, Fantasy, Sci-Fi':
             return 24;
+        case 'Action, Adventure, Drama':
+            return 25;
+        case 'Adventure, Drama, Fantasy':
+            return 26;
         default:
             return 0;
     }
