@@ -5,11 +5,11 @@ const serieSchema = new Schema({
         type: String,
         required: true
     },
-    genre: [{
+    genre: {
         type: String,
         required: true
-    }],
-    year: {
+    },
+    writer: {
         type: String,
         required: true
     },

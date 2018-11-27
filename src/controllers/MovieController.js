@@ -1,49 +1,6 @@
 import { Movie } from '../models/Movie';
-import { fetchMovieFromApi } from '../services/Api';
-import { getEntryByTitleParam, getAll } from '../controllers/QueryController';
-import { compareData } from '../services/Validator';
-import moment from 'moment';
+import { getEntryByTitleParam, getAll, getAndStoreData } from '../controllers/QueryController';
 
-export const getAndStoreMovie = async (req, res) => {
-    const { movieTitle, movieYear } = req.body;
-    const movie = await fetchMovieFromApi(movieTitle, movieYear);
-    const existingMovie = await Movie.findOne({ title: movie.Title });
-
-    if (!movieTitle) {
-        return res.status(403).send('Please Enter The Movie Title');
-    }
-
-    if (movie.Error || movie.Response === 'False') {
-        return res.status(403).send('Movie Not Found');
-    }
-
-    if (existingMovie) {
-        if (compareData(existingMovie, movie)) {
-            return res.json(existingMovie);
-        }
-
-        const updateMovieData = {
-            title: movie.Title,
-            genre: movie.Genre.split(' ,'),
-            released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
-            rating: movie.imdbRating,
-            poster: movie.Poster,
-            plot: movie.Plot
-        }
-        return Movie.findOneAndUpdate({ title: movie.Title }, { $set: updateMovieData }, { new: true }).then(movieRecord => res.json(movieRecord));
-    }
-
-    const newMovieEntry = {
-        title: movie.Title,
-        genre: movie.Genre.split(' ,'),
-        released: moment(new Date(movie.Released)).format('DD/MMM/YYYY'),
-        rating: movie.imdbRating,
-        poster: movie.Poster,
-        plot: movie.Plot
-    };
-
-    return await new Movie(newMovieEntry).save().then(movie => res.json(movie));
-}
-
-export const getMovieByTitleParam = (req, res, next) => getEntryByTitleParam(Movie)(req,res,next);
-export const getAllMovies = (req, res, next) => getAll(Movie)(req,res,next);
+export const getAndStoreMovie = async (req, res) => getAndStoreData('movie', Movie)(req, res);
+export const getMovieByTitleParam = (req, res, next) => getEntryByTitleParam(Movie)(req, res, next);
+export const getAllMovies = (req, res, next) => getAll(Movie)(req, res, next);

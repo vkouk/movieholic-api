@@ -1,11 +1,11 @@
-import express from 'express';
-import { getAllMovies, getAndStoreMovie, getMovieByTitleParam } from '../controllers/MovieController';
+import express from "express";
+import { getAllMovies, getAndStoreMovie, getMovieByTitleParam, } from "../controllers/MovieController";
 
 export const movieRouter = express.Router();
 
-movieRouter.route('/movie')
+movieRouter.route("/movie")
     .get(getAllMovies)
     .post(getAndStoreMovie);
 
-movieRouter.route('/movie/:title')
+movieRouter.route("/movie/:title")
     .get(getMovieByTitleParam);

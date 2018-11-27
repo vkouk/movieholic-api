@@ -22,10 +22,14 @@ const userSchema = new Schema({
     },
     balance: {
         type: Number,
-        default: 50
+        default: 10
     },
     avatar: {
         type: String
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     },
     joinedAt: {
         type: Date,
@@ -33,13 +37,17 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function (next) {
+    if (!this.isModified('password')) {
+        return next();
+    }
+
     const user = this;
 
-    bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.genSalt(10, function (err, salt) {
         if (err) { return next(err); }
 
-        bcrypt.hash(user.password, salt, null, function(err, hash) {
+        bcrypt.hash(user.password, salt, null, function (err, hash) {
             if (err) { return next(err); }
 
             user.password = hash;
@@ -48,8 +56,8 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, callback) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+userSchema.methods.comparePassword = function (candidatePassword, callback) {
+    bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) { return callback(err); }
 
         callback(null, isMatch);

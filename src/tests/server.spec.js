@@ -16,3 +16,11 @@ const API_URL = process.env.NODE_ENV === 'production' ? 'https://movieholic-api.
 //         });
 //     });
 // });
+
+describe('server', () => {
+
+    it('should be true', () => {
+        expect(true).toBe(true);
+    });
+
+});
