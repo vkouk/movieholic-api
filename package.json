@@ -56,7 +56,8 @@
     "jasmine": "^3.2.0",
     "nodemon": "^1.18.4",
     "source-map-support": "^0.5.9",
-    "webpack": "^4.20.2",
+    "supertest": "^3.3.0",
+    "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2",
     "webpack-node-externals": "^1.7.2"
   }
