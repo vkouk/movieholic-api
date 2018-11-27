@@ -4,7 +4,6 @@ import config from '../config';
 import { validateEmail } from '../helpers/Validator';
 import { User } from '../models/User';
 import gravatar from 'gravatar';
-import { getEntryByValue } from './QueryController';
 const stripe = require("stripe")(config.stripeKeySecret);
 
 const redisClient = redis.createClient(config.REDIS_URL);

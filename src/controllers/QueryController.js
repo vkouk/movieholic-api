@@ -15,12 +15,6 @@ export const getEntryByIdParam = model => async (req, res, next) => {
         .catch(error => next(error));
 };
 
-export const getEntryByValue = (model, value) => async (req, res, next) => {
-    return await model.findOne({ $or: [{ _id: value }, { title: value }, { email: value }, { username: value }] })
-        .then(doc => res.json(doc))
-        .catch(error => next(error));
-};
-
 export const getAll = model => async (req, res, next) => {
     return await model.find({})
         .populate('customer')
