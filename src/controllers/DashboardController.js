@@ -13,7 +13,7 @@ export const getLatestMembers = async (req, res) => {
 
 const countMostRentedData = array_of_titles => {
     return array_of_titles.reduce((countWords, word) => {
-        countWords[word] = ++countWords[word] || 1;
+        countWords[word.title] = ++countWords[word.title] || 1;
         return countWords;
     }, {});
 };
