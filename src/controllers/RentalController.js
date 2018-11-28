@@ -68,11 +68,11 @@ export const returnRent = async (req, res) => {
         return res.status(503).send(`Order with ID: ${rental._id} has already been returned`);
     }
 
-    if (rental.rentalFee > rental.customer.balance || rental.customer.balance <= 0) {
+    rental.returnRental(rental.movies, rental.series);
+
+    if (rental.rentalFee > rental.customer.balance || rental.customer.balance <= 0 || rental.customer.balance < rental.returnRental(rental.movies, rental.series)) {
         return res.status(503).send(`Dear/Madam, ${rental.customer.username} your balance isn't enough to return your order`);
     }
-
-    rental.returnRental(rental.movies, rental.series);
 
     await stripe.charges.create({
         amount: Math.round(rental.rentalFee) * 100,

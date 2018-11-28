@@ -13,15 +13,29 @@ export const getLatestMembers = async (req, res) => {
 
 const countMostRentedData = array_of_titles => {
     return array_of_titles.reduce((countWords, word) => {
-        countWords[word.title] = ++countWords[word.title] || 1;
+        countWords[word] = ++countWords[word] || 1;
         return countWords;
     }, {});
 };
 
+const sortObject = obj => {
+    let sortable = [];
+    for (let count in obj) {
+        sortable.push({ title: count, count: obj[count] });
+    }
+
+    return sortable.sort((a, b) => b.count - a.count);
+};
+
 export const mostRented = async (req, res) => {
     const allOrders = await Rental.find().sort('-dateOrdered').populate('movies').populate('series');
-    const allOrderMovies = countMostRentedData(allOrders.movies);
-    const allOrderSeries = countMostRentedData(allOrders.series);
+    let allOrderMovies = [];
+    let allOrderSeries = [];
 
-    res.json({ allOrderMovies, allOrderSeries });
+
+    allOrders.map(order => {
+        allOrderMovies.push(...order.movies.map(movie => movie.title));
+        allOrderSeries.push(...order.series.map(serie => serie.title));
+    });
+    res.json({ allOrderMovies: sortObject(countMostRentedData(allOrderMovies)), allOrderSeries: sortObject(countMostRentedData(allOrderSeries)) });
 };
