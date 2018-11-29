@@ -37,5 +37,5 @@ export const mostRented = async (req, res) => {
         allOrderMovies.push(...order.movies.map(movie => movie.title));
         allOrderSeries.push(...order.series.map(serie => serie.title));
     });
-    res.json({ allOrderMovies: sortObject(countMostRentedData(allOrderMovies)), allOrderSeries: sortObject(countMostRentedData(allOrderSeries)) });
+    res.json([...sortObject(countMostRentedData(allOrderMovies)), ...sortObject(countMostRentedData(allOrderSeries))]);
 };
