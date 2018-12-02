@@ -25,6 +25,7 @@ Run docker application then execute in your terminal,
 ## Deployment
 
 Application is deploy in heroku.com and running in production mode.
+* Link that can be used to test front-end: https://movieholic-api.herokuapp.com/
 
 ## Built With
 
